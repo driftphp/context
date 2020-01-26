@@ -41,7 +41,7 @@ final class Context
     }
 
     /**
-     * With value.
+     * Create with value.
      *
      * @param string $namespace
      * @param string $key
@@ -49,21 +49,36 @@ final class Context
      *
      * @return self
      */
-    public function withValue(
+    public static function createWithValue(
         string $namespace,
         string $key,
         $value
     ): self {
-        $newContext = new self();
-        $newContext->values = $this->values;
+        $context = self::createEmpty();
+        $context->withValue($namespace, $key, $value);
 
-        if (!isset($newContext->values[$namespace])) {
-            $newContext->values[$namespace] = [];
+        return $context;
+    }
+
+    /**
+     * With value.
+     *
+     * @param string $namespace
+     * @param string $key
+     * @param $value
+     *
+     * @return void
+     */
+    public function withValue(
+        string $namespace,
+        string $key,
+        $value
+    ): void {
+        if (!isset($this->values[$namespace])) {
+            $this->values[$namespace] = [];
         }
 
-        $newContext->values[$namespace][$key] = $value;
-
-        return $newContext;
+        $this->values[$namespace][$key] = $value;
     }
 
     /**

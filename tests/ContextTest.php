@@ -24,13 +24,12 @@ use PHPUnit\Framework\TestCase;
 class ContextTest extends TestCase
 {
     /**
-     * Test context immutable.
+     * Test create.
      */
-    public function testContextImmutable()
+    public function testCreate()
     {
-        $context = Context::createEmpty();
-        $context2 = $context->withValue(self::class, 'key', 'value');
-        $this->assertNotSame($context, $context2);
+        $this->assertInstanceOf(Context::class, Context::createEmpty());
+        $this->assertInstanceOf(Context::class, Context::createWithValue(self::class, 'key', 'value'));
     }
 
     /**
@@ -38,11 +37,10 @@ class ContextTest extends TestCase
      */
     public function testContextSetter()
     {
-        $context = Context::createEmpty();
-        $context = $context->withValue(self::class, 'key', 'value');
-        $context = $context->withValue(self::class, 'key', 'value2');
-        $context = $context->withValue('Another\Namespace', 'key', 'value3');
-        $context = $context->withValue(self::class, 'anotherkey', 'value4');
+        $context = Context::createWithValue(self::class, 'key', 'value');
+        $context->withValue(self::class, 'key', 'value2');
+        $context->withValue('Another\Namespace', 'key', 'value3');
+        $context->withValue(self::class, 'anotherkey', 'value4');
         $this->assertEquals('value2', $context->getValue(self::class, 'key'));
         $this->assertEquals('value3', $context->getValue('Another\Namespace', 'key'));
         $this->assertEquals('value4', $context->getValue(self::class, 'anotherkey'));
@@ -55,7 +53,7 @@ class ContextTest extends TestCase
     {
         $context = Context::createEmpty();
         $this->assertNull($context->getValue(self::class, 'key'));
-        $context = $context->withValue(self::class, 'anotherkey', 'value');
+        $context->withValue(self::class, 'anotherkey', 'value');
         $this->assertNull($context->getValue(self::class, 'key'));
     }
 }
