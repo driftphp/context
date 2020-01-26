@@ -1,5 +1,5 @@
 {
-  "name": "drift/redis-bundle",
+  "name": "drift/context",
   "type": "library",
   "license": "MIT",
 
@@ -9,7 +9,13 @@
 
   "autoload": {
     "psr-4": {
-      "Drift\\": "."
+      "Drift\\": "src/"
+    }
+  },
+
+  "autoload-dev": {
+    "psr-4": {
+      "Drift\\Tests\\": "tests/"
     }
   }
 }
